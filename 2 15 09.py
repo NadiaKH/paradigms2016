@@ -1,3 +1,4 @@
+
 # Given a string, if its length is at least 3,
 # add 'ing' to its end.
 # Unless it already ends in 'ing', in which case
@@ -9,7 +10,7 @@
 # Example output: 'reading'
 def verbing(s):
     if len(s)>2:
-        if s[len(s)-3:]=="ing":
+        if s[-3:]=="ing":
             s=s+'ly'
         else:
             s=s+'ing'
@@ -25,11 +26,8 @@ def verbing(s):
 def not_bad(s):
     i=s.find('not')
     j=s.find('bad')
-    s=s+'0'
     if (j>i)and(i!=-1):
-        s=s[:i]+'good'+s[j+3:]
-        
-    s=s[:len(s)-1]    
+        s=s[:i]+'good'+s[j+3:]   
     return s
 # Consider dividing a string into two halves.
 # If the length is even, the front and back halves are the same length.
@@ -42,8 +40,12 @@ def not_bad(s):
 # Example input: 'abcd', 'xy'
 # Example output: 'abxcdy'
 def front_back(a, b):
-    a=a[:len(a)//2+len(a)%2]+b[:len(b)//2+len(b)%2]+a[len(a)//2+len(a)%2:]+b[len(b)//2+len(b)%2:]
+    f= lambda x: len(x)//2+len(x)%2
+    a=a[:f(a)]+b[:f(b)]+a[f(a):]+b[f(b):]
     return a
+
+
+
 
 
 
