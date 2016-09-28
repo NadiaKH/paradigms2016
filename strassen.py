@@ -1,16 +1,17 @@
 import numpy as np
 
 
-def separate_matrix(mtrx,mid):
+def separate_matrix(mtrx, mid):
     a11 = mtrx[:mid, :mid]
     a12 = mtrx[:mid, mid:]
     a21 = mtrx[mid:, :mid]
     a22 = mtrx[mid:, mid:]
-    return a11, a12, a21, a22 
+    return a11, a12, a21, a22
+
 
 def mul(a, b):
     width, height = a.shape
-    mid = width//2
+    mid = width // 2
     m = np.zeros((width, width), dtype=np.int)
     if width == 1:
         return a[0, 0] * b[0, 0]
@@ -46,27 +47,26 @@ def array_extend_with_zero(a):
     return m
 
 
-def input_of_matrix(a,n):
+def input_of_matrix(a, n):
     for i in range(n):
-        a[i]=np.asarray(input().split(' '),dtype=np.int)
+        a[i] = np.asarray(input().split(' '), dtype=np.int)
 
 
-def output_of_matrix(a,n):
+def output_of_matrix(a, n):
     for i in range(n):
         for j in range(n):
-            print(a[i,j],'',end="")
+            print(a[i, j], '', end="")
         print(end='\n')
 
-        
+
 if __name__ == '__main__':
     n = int(input())
     a = np.zeros((n, n), dtype=np.int)
     b = np.zeros((n, n), dtype=np.int)
-    input_of_matrix(a,n)
-    input_of_matrix(b,n)
+    input_of_matrix(a, n)
+    input_of_matrix(b, n)
     c = array_extend_with_zero(a)
     d = array_extend_with_zero(b)
     res_matrix = array_extend_with_zero(b)
     res_matrix = mul(c, d)
-    output_of_matrix(res_matrix,n)
-    
+    output_of_matrix(res_matrix, n)
