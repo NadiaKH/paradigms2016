@@ -36,14 +36,6 @@ def near_bigger_pow2(x):
     return c
 
 
-def array_extend_with_zero(a):
-    width, height = a.shape
-    pow2 = near_bigger_pow2(width)
-    m = np.zeros(pow2 * pow2).reshape(pow2, pow2)
-    m[:width, :height] = a
-    return m
-
-
 def read_matrix(n):
     a = np.zeros((near_bigger_pow2(n), near_bigger_pow2(n)), dtype=np.int)
     for i in range(n):
