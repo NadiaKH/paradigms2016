@@ -1,16 +1,16 @@
 import numpy as np
 
 
-def separate_matrix(mtrx):
-    upper_half_mtrx, lower_half_mtrx = np.vsplit(mtrx, 2)
-    a11, a12 = np.hsplit(upper_half_mtrx, 2)
-    a21, a22 = np.hsplit(lower_half_mtrx, 2)
+def separate_matrix(m):
+    upper_half, lower_half = np.vsplit(m, 2)
+    a11, a12 = np.hsplit(upper_half, 2)
+    a21, a22 = np.hsplit(lower_half, 2)
     return a11, a12, a21, a22
 
 
 def mul(a, b):
     if a.size == 1:
-        return a[0, 0] * b[0, 0]
+        return np.dot(a, b)
     else:
         a11, a12, a21, a22 = separate_matrix(a)
         b11, b12, b21, b22 = separate_matrix(b)
@@ -21,12 +21,12 @@ def mul(a, b):
         p5 = mul(a11 + a12, b22)
         p6 = mul(a21 - a11, b11 + b12)
         p7 = mul(a12 - a22, b21 + b22)
-        m11 = p1 + p4 - p5 + p7
-        m12 = p3 + p5
-        m21 = p2 + p4
-        m22 = p1 - p2 + p3 + p6
-        m = np.vstack((np.hstack((m11, m12)), np.hstack((m21, m22))))
-        return m
+        с11 = p1 + p4 - p5 + p7
+        с12 = p3 + p5
+        с21 = p2 + p4
+        с22 = p1 - p2 + p3 + p6
+        return np.vstack((np.hstack((с11, с12)),
+                          np.hstack((с21, с22))))
 
 
 def near_bigger_pow2(x):
@@ -39,7 +39,7 @@ def near_bigger_pow2(x):
 def read_matrix(n):
     a = np.zeros((near_bigger_pow2(n), near_bigger_pow2(n)), dtype=np.int)
     for i in range(n):
-        a[i, :n] = np.asarray(input().split(' '), dtype=np.int)
+        a[i, :n] = np.array(input().split(), dtype=np.int)
     return a
 
 
