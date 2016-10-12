@@ -236,7 +236,9 @@ def testCond_2():
     F = FunctionCall(FunctionDefinition('F',
                                         Function((),[Print(Number(2))])),
                      [])
-    Conditional(BinaryOperation(Number(3), '>', Number(5)), [F]).evaluate(parent)
+    cond = Conditional(BinaryOperation(Number(3), '>', Number(5)), [F])
+    assert None == cond.evaluate(parent)
+    
 
 def testCond_3():
     parent = Scope()
@@ -266,9 +268,11 @@ def testCond_4():
 
 def testCond_5():
     parent = Scope()
-    Conditional(BinaryOperation(Number(3), '>', Number(5)),
+    cond = Conditional(BinaryOperation(Number(3), '>', Number(5)),
                 [Print(Number(3))],
-                [Print(Number(5))]).evaluate(parent)
+                [Print(Number(5))])
+    assert 5 == cond.evaluate(parent).value
+    
 
 
 def testReference_1():
@@ -289,12 +293,13 @@ def testPrint_1():
     N = Number(10)
     P = Print(N)
     P.evaluate(parent)
-    Print(Number(5)).evaluate(parent)
+    assert 5 == Print(Number(5)).evaluate(parent).value
 
 def testPrint_2():
     parent = Scope()
     parent['a'] = Number(0)
-    Print(Reference('a')).evaluate(parent)
+    assert 0 == Print(Reference('a')).evaluate(parent).value
+    
 
 def testFunc_1():
     parent = Scope()
@@ -303,7 +308,8 @@ def testFunc_1():
                                         '+',
                                         Reference('b')))])
     FuncDef_1 = FunctionDefinition('foo_1', F)
-    FunctionCall(FuncDef_1.evaluate(parent),[ Number(2), Number(3)])
+    assert 5 == FunctionCall(FuncDef_1,[ Number(2), Number(3)]).evaluate(parent).value
+    
 
 
 def testFunc_2():
@@ -316,10 +322,10 @@ def testFunc_2():
                                               Reference('b'))])
     FuncDef_F = FunctionDefinition('foo_F', F)
     FuncDef_G = FunctionDefinition('foo_G', G)
-    FunctionCall(FuncDef_F,
+    assert 7 == FunctionCall(FuncDef_F,
                  (FunctionCall(FuncDef_G,
                                [Number(1), Number(2)]).evaluate(parent),
-                  Number(5))).evaluate(parent)
+                  Number(5))).evaluate(parent).value
 
 def testFunc_3():
     parent = Scope()
@@ -329,11 +335,11 @@ def testFunc_3():
                                                     Reference('b')))])
     
     FuncDef = FunctionDefinition('foo', parent['foo'])
-    FunctionCall(FuncDef, [Number(2), Number(3)]).evaluate(parent)
+    assert 5 == FunctionCall(FuncDef, [Number(2), Number(3)]).evaluate(parent).value
 
 def testFunc_4():
     parent = Scope()
-    Print(Number(10)).evaluate(parent)
+    assert 10 == Print(Number(10)).evaluate(parent).value
     F =  Function((), [Print(Number(10))])
     FunctionCall(FunctionDefinition('F',F), []).evaluate(parent)
                              
@@ -342,51 +348,43 @@ def testFunc_5():
     parent = Scope()
     F = Function((), [Print(Number(10))])
     FuncDef = FunctionDefinition('foo', F)
-    FunctionCall(FuncDef,[]).evaluate(parent)
+    assert 10 == FunctionCall(FuncDef,[]).evaluate(parent).value
+    
 
 
 def testFunc_6():
     parent = Scope()
     BinOpInc = BinaryOperation(Reference('a'), '+', Number(1))
     F = FunctionDefinition('F', Function(('a', 'b'), [BinOpInc]))
-    FunctionCall(F, [Number(5)]).evaluate(parent)
+    assert 6 == FunctionCall(F, [Number(5)]).evaluate(parent).value
+    
+     
 
 def testFunc_7():
     parent = Scope()
     BinOpInc = BinaryOperation(Reference('a'), '+', Number(1))
     F = FunctionDefinition('F', Function(('a'), [BinOpInc]))
-    FunctionCall(F, [Number(4)]).evaluate(parent)
-
-
-def testFunc_8():
-    parent = Scope()
-    BinOpCond = BinaryOperation(Reference('a'), '>', Number(1))
-    BinOpInc = BinaryOperation(Reference('a'), '+', Number(1))
-    BinOpDec = BinaryOperation(Reference('a'), '-', Number(1))
-    FTrue = FunctionDefinition('Ftrue', Function(('a'), [BinOpInc]))
-    FFalse = FunctionDefinition('FFalse', Function(('a'), [BinOpDec, Print(Reference('a'))]))
-    FunctionCall(FTrue, (Number(4))).evaluate(parent)
-    cond = Conditional(BinOpCond, [FunctionCall(FTrue, (Reference('a')))], [FunctionCall(FFalse, Reference('a'))])
-    F = FunctionDefinition('F', Function(('a'), [cond]))
-    FunctionCall(F, (Number(1))).evaluate(parent)
+    assert 5 == FunctionCall(F, [Number(4)]).evaluate(parent).value
+    
 
 def testCond_6():
     parent = Scope()
     cond = Conditional(Number(1), [], [])
-    cond.evaluate(parent)
+    assert None == cond.evaluate(parent)
 
 def testCond_7():
     parent = Scope()
     cond = Conditional(Number(0), [], [])
-    cond.evaluate(parent)
+    assert None == cond.evaluate(parent)
 
 def testCond_8():
     parent = Scope()
     cond = Conditional(Number(1), None, [])
-    cond.evaluate(parent)
+    assert None == cond.evaluate(parent)
 
     
 if __name__ == '__main__':
+    print("не обращайте внимания на числа снизу.")
     testBinOper_1()
     testBinOper_2()
     testBinOper_3()
