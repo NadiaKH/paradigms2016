@@ -53,17 +53,17 @@ class Conditional:
     def __init__(self, condition, if_true, if_false = None):
 
         self.condition = condition
-        self.if_true = if_true
+        self.if_true = if_true  
         self.if_false = if_false
         
 
     def evaluate(self, scope):
         res = None
-        if self.if_true != None and self.condition.evaluate(scope).value:
-            for elem in self.if_true:
+        if self.condition.evaluate(scope).value:
+            for elem in self.if_true or []:
                 res = elem.evaluate(scope)
-        elif self.if_false != None and self.if_false != None:
-            for elem in self.if_false:
+        else:
+            for elem in self.if_false or []:
                 res = elem.evaluate(scope)
         return res
 
