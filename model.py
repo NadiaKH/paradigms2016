@@ -80,7 +80,7 @@ class Print:
 class Read:
 
     def __init__(self, name):
-        Read.name = name
+        Self.name = name
 
     def evaluate(self, scope):
         number = int(input())
