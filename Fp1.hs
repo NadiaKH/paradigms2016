@@ -22,11 +22,12 @@ filter' f (x:xs) | f x = x : (filter' f xs)
 				 
 foldl' :: (a -> b -> a) -> a -> [b] -> a
 foldl' _ z [] = z
-foldl' f z (l:ls) = foldl' f (f z l) ls
+foldl' f z (x:xs) = foldl' f (f z x) xs
 
 concat' :: [a]->[a]->[a]
 concat' [] xs = xs
 concat' (x:xs) ys = x:concat' xs ys
 
 quickSort' [] = []
-quickSort' (x:xs) = concat' (quickSort'(filter' (< x) xs)) (x:quickSort' (filter'(>= x) xs))
+quickSort' (x:xs) = concat' (quickSort'(filter' (< x) xs)) 
+                            (x:quickSort' (filter'(>= x) xs))
