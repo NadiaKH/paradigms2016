@@ -21,5 +21,6 @@ merge _ tree                      = tree
 
 delete :: Ord k => k -> BinaryTree k v -> BinaryTree k v
 delete key (Node k v left right)| (key == k) = merge left right
-                                |  otherwise = (Node k v (delete key left) (delete key right))
+                                | (key > k)  = (Node k v left (delete key right))
+                                | (key < k)  = (Node k v (delete key left) right)
 delete key _                                 =  Nil
