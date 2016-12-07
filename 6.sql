@@ -3,5 +3,5 @@ SELECT  City.Name,
         Country.Population AS CountryPopulation
 FROM (City
 JOIN Country ON Country.code = City.CountryCode)
-ORDER BY City.Population/Country.Population DESC
+ORDER BY City.Population/Country.Population DESC, City.Name DESC
 LIMIT 20;
