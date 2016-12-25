@@ -13,23 +13,22 @@ def get_v(n):
     return res
 
 
-        
 class TestRead:
 
     def test_simple(self, monkeypatch):
-        monkeypatch.setattr(sys, "stdin", StringIO('6'))
+        monkeypatch.setattr(sys, 'stdin', StringIO('6'))
         assert get_v(Read('a')) == 6
 
 
 class TestPrint:
-    
+
     def test_simple(self, monkeypatch):
-        monkeypatch.setattr(sys, "stdout", StringIO())
+        monkeypatch.setattr(sys, 'stdout', StringIO())
         Print(Number(10)).evaluate({})
         assert int(sys.stdout.getvalue()) == 10
 
     def test_print_number(self, monkeypatch):
-        monkeypatch.setattr(sys, "stdout", StringIO())
+        monkeypatch.setattr(sys, 'stdout', StringIO())
         scope = Scope()
         Print(Number(10)).evaluate(scope)
         assert int(sys.stdout.getvalue()) == 10
@@ -37,7 +36,7 @@ class TestPrint:
     def test_print_reference(self, monkeypatch):
         parent = {}
         parent['a'] = Number(-10)
-        monkeypatch.setattr(sys, "stdout", StringIO())
+        monkeypatch.setattr(sys, 'stdout', StringIO())
         Print(Reference('a')).evaluate(parent)
         assert int(sys.stdout.getvalue()) == -10
 
@@ -228,39 +227,37 @@ class TestFunctionDefinition:
 class TestFunctionCall:
 
     def test_simple(self):
-        parent = {}
         func = Function((), [Number(6)])
         funcdef = FunctionDefinition('F', func)
         funccall = FunctionCall(funcdef, [])
         assert get_v(funccall) == 6
 
     def test_args(self):
-        parent = Scope()
         func = Function(('a', 'b'), [BinaryOperation(Reference('a'),
-                                                  '+',
-                                                  Reference('b'))])
+                                                     '+',
+                                                     Reference('b'))])
         funcdef = FunctionDefinition('F', func)
         funccall = FunctionCall(funcdef, [Number(2), Number(3)])
         assert get_v(funccall) == 5
 
 
-class IntegrationTest:
+class TestIntegration:
 
     def test_function_print(self):
         old_stdout = sys.stdout
         sys.stdout = io.StringIO()
         parent = Scope()
         func = Function(('a', 'b'),
-                     [Print(BinaryOperation(Reference('a'),
-                                            '+',
-                                            Reference('b')))])
+                        [Print(BinaryOperation(Reference('a'),
+                                               '+',
+                                               Reference('b')))])
         funcdef = FunctionDefinition('F', func)
         FunctionCall(funcdef, [Number(2), Number(3)]).evaluate(parent)
         assert int(sys.stdout.getvalue()) == 5
         sys.stdout = old_stdout
 
     def test_function(self, monkeypatch):
-        monkeypatch.setattr(sys, "stdout", StringIO())
+        monkeypatch.setattr(sys, 'stdout', StringIO())
         parent = Scope()
         func = Function(('a'), [Print(Reference('a'))])
         funcdef = FunctionDefinition('foo', func)
