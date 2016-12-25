@@ -13,12 +13,12 @@ def find_min_pos(mat):
     min_i = None
     min_j = None
     min_val = None
-    for i, row in enumerate(mat) or []:
-        for j, elem in enumerate(row) or []:
+    for i, row in enumerate(mat):
+        for j, elem in enumerate(row):
             if (min_val is None) or (elem < min_val):
                 min_i = i
                 min_j = j
-                min_val = mat[i][j]
+                min_val = row[j]
     return (min_i, min_j)
 
 
