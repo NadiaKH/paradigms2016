@@ -5,12 +5,14 @@
 
 typedef void (*OnComputationComplete)(void*);
 struct Computation{
+	pthread_cond_t cond_var;
+	pthread_mutex_t mtx;
+	
 	void (*f)(void*);
 	void * arg;
 	struct Task task;
 	bool is_completed;
-	pthread_cond_t cond_var;
-	pthread_mutex_t mtx;
+	
 	OnComputationComplete on_complete;
 	void* on_complete_arg;	
 };
