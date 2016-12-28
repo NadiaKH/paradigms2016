@@ -39,5 +39,5 @@ void thpool_wait_computation(struct Computation *computation){
 	pthread_mutex_unlock(&computation->mtx);
 	pthread_cond_destroy(&computation->cond_var);
 	pthread_mutex_destroy(&computation->mtx);
-	pthread_mutex_destroy(&computation->task.guard);
+	thpool_wait(&computation->task);
 }
