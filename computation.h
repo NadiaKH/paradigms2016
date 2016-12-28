@@ -7,7 +7,6 @@ struct Computation{
 	bool is_completed;
 	pthread_cond_t cond_var;
 	pthread_mutex_t mtx;
-	struct ThreadPool *pool;
 	OnComputationComplete on_complete;
 	void* on_complete_arg;	
 };
