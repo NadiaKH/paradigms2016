@@ -26,5 +26,4 @@ if __name__ == "__main__":
             with open(name_file2) as file2:
                 cont_file2 = file2.readlines()
             diffs = difflib.unified_diff(cont_file1, cont_file2, fromfile = name_file1, tofile = name_file2)
-            for string in diffs:
-                print(string)
+            sys.stdout.writelines(diffs)
