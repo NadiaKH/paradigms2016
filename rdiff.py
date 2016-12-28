@@ -15,9 +15,9 @@ if __name__ == "__main__":
     
     for file in joint:
         if file not in files_folder1:
-            print("Only in " + folder1 + ":", file)
-        elif file not in files_folder2:
             print("Only in " + folder2 + ":", file)
+        elif file not in files_folder2:
+            print("Only in " + folder1 + ":", file)
         else:
             name_file1 = os.path.join(folder1, file)
             name_file2 = os.path.join(folder2, file)
@@ -26,4 +26,5 @@ if __name__ == "__main__":
             with open(name_file2) as file2:
                 cont_file2 = file2.readlines()
             diffs = difflib.unified_diff(cont_file1, cont_file2, fromfile = name_file1, tofile = name_file2)
-            print(list(diffs))
+            for string in diffs:
+                print(string)
