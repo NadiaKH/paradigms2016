@@ -1,6 +1,7 @@
 #include "computation.h"
 #include <stdlib.h>
 #include <stdio.h>
+
 void thpool_submit_computation(
     struct ThreadPool *pool,
     struct Computation *computation,
@@ -18,6 +19,7 @@ void thpool_submit_computation(
 	computation -> on_complete_arg = on_complete_arg;
 	thpool_submit(pool, &computation -> task);
 }
+
 void thpool_complete_computation(
 	struct Computation *computation
 ){
@@ -28,6 +30,7 @@ void thpool_complete_computation(
 	if (computation->on_complete!=NULL)
 		computation->on_complete(computation->on_complete_arg);
 }
+
 void thpool_wait_computation(struct Computation *computation){
 	pthread_mutex_lock(&computation->mtx);
 	while (!computation->is_completed){
@@ -36,4 +39,5 @@ void thpool_wait_computation(struct Computation *computation){
 	pthread_mutex_unlock(&computation->mtx);
 	pthread_cond_destroy(&computation->cond_var);
 	pthread_mutex_destroy(&computation->mtx);
+	pthread_mutex_destroy(&computation->task.guard);
 }
